@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Sentalang Core Specification</title>
+        <meta name="robots" content="noindex" />
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded affix "><a href="roadmap.html">Roadmap</a></li><li class="chapter-item expanded affix "><li class="part-title">Concepts</li><li class="chapter-item expanded "><a href="concepts/json.html"><strong aria-hidden="true">1.</strong> JSON</a></li><li class="chapter-item expanded "><a href="concepts/primitives.html"><strong aria-hidden="true">2.</strong> Primitives</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts/fractions.html"><strong aria-hidden="true">2.1.</strong> Fractions</a></li><li class="chapter-item expanded "><a href="concepts/bezier.html"><strong aria-hidden="true">2.2.</strong> Bézier</a></li></ol></li><li class="chapter-item expanded "><a href="concepts/time.html"><strong aria-hidden="true">3.</strong> Time</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts/time_basics.html"><strong aria-hidden="true">3.1.</strong> Basics</a></li><li class="chapter-item expanded "><a href="concepts/bpm_offset.html"><strong aria-hidden="true">3.2.</strong> BPM and Offsets</a></li></ol></li><li class="chapter-item expanded "><a href="concepts/events.html"><strong aria-hidden="true">4.</strong> Events</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="concepts/group_named_events.html"><strong aria-hidden="true">4.1.</strong> Groups and named events</a></li></ol></li><li class="chapter-item expanded "><li class="part-title">Format</li><li class="chapter-item expanded "><a href="format/header.html"><strong aria-hidden="true">5.</strong> Header</a></li><li class="chapter-item expanded "><a href="format/files.html"><strong aria-hidden="true">6.</strong> Files</a></li><li class="chapter-item expanded "><a href="format/chart_organization.html"><strong aria-hidden="true">7.</strong> Chart organization</a></li><li class="chapter-item expanded "><a href="format/chart_metadata.html"><strong aria-hidden="true">8.</strong> Chart metadata</a></li><li class="chapter-item expanded affix "><li class="part-title">Extensions</li><li class="chapter-item expanded "><a href="extensions/game_specifications.html"><strong aria-hidden="true">9.</strong> Game specifications</a></li><li class="chapter-item expanded "><a href="extensions/extensions.html"><strong aria-hidden="true">10.</strong> Extensions</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Sentalang Core Specification</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
+<p><strong>Sentalang</strong> is a JSON rhythm game chart format that focuses on flexibility, simplicity, and unambiguity. This repository contains the core specification and related concepts of the format.</p>
+<blockquote>
+<p>The specification and this documentation is still under-construction. Things may change drastically as things gets finalized and comments/suggestions are addressed. We welcome everyone to participate and give constructive thoughts.</p>
+</blockquote>
+<h2 id="goals"><a class="header" href="#goals">Goals</a></h2>
+<p>The following are the goals that this specification aims to achieve:</p>
+<ul>
+<li><strong>Versioning</strong>: Chart files includes the version of the specifications it is targeting.</li>
+<li><strong>Ease-of-parsing</strong>: Sentalang doesn't use a custom data serialization format meaning parsers just needs to focus on validation.</li>
+<li><strong>Well-defined</strong>: The core specification must leave no ambiguities in interpretation.</li>
+<li><strong>Strong separation between gimmicks and timing</strong>: Time must be well-defined with no way of tinkering with it to cause visual gimmicks.</li>
+<li><strong>Game agnostic</strong>: The core specification assumes as little as possible about any game or their game engines.</li>
+<li><strong>Flexible</strong>: Allows game modes and extensions to be defined outside the core specification.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
+<p>Sentalang is still work-in-progress. Here are a list of things still needed to do before we can consider the minimum viable product (MVP) done.</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Complete core specification draft</li>
+<li><input disabled="" type="checkbox"/>
+Complete MaiMai game specification</li>
+<li><input disabled="" type="checkbox"/>
+Complete MaiMai gimmick extension specification</li>
+<li><input disabled="" type="checkbox"/>
+Revisions and request for comments</li>
+<li><input disabled="" type="checkbox"/>
+Release libraries</li>
+<li><input disabled="" type="checkbox"/>
+Release chart format converters</li>
+</ul>
+<p>Separate to the MVP but still important</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Release graphical chart editor</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="json"><a class="header" href="#json">JSON</a></h1>
+<p>Sentalang follows the <a href="https://datatracker.ietf.org/doc/html/rfc7493">I-JSON message format</a> which is a more strict and interoperable profile of JSON. The summary of restrictions and recommendations over regular JSON are as follows:</p>
+<ul>
+<li>UTF-8 encoding only.</li>
+<li>Floating point numbers should not exceed precision of IEEE 754-2008 binary64 (double precision) numbers.</li>
+<li>Integers should not go outside the range [-(2^53)+1, (2^53)-1]</li>
+<li>Objects must not have members with duplicate names.</li>
+<li>Objects or arrays should be the top-level JSON text in an I-JSON message.</li>
+<li>Dates are recommended to be expressed as string values using ISO 8601 format.</li>
+<li>If binary data is to embedded, it is recommended for it to be encoded as a string in Base64URL.</li>
+</ul>
+<h2 id="why-json"><a class="header" href="#why-json">Why JSON?</a></h2>
+<p>We chose JSON over other data serialization formats or making our own for the following reasons:</p>
+<ul>
+<li>It is the most ubiquitous data serialization format with parsers available on most programming languages.</li>
+<li>It is simple format that's easily understood both by computers and humans.</li>
+<li>It is a standardized format with no additions or breaking changes to it since its inception.</li>
+</ul>
+<h2 id="json-disadvantages"><a class="header" href="#json-disadvantages">JSON Disadvantages</a></h2>
+<p>JSON is not perfect so here are some disadvantages of using it:</p>
+<ul>
+<li><strong>Larger file sizes</strong>: Since JSON is a text format, it has a larger storage footprint compared to binary serialization formats. Especially when storing binary data.</li>
+<li><strong>No built-in schema validation</strong>: Unlike some serialization formats like XML and Protocol Buffers, JSON doesn't have schema validation built-in.</li>
+</ul>
+<p>For JSON's space inefficiency, we considered it a non-issue due to the size of a chart file being smaller than the accompanying audio and video files by several orders of magnitude.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="primitives"><a class="header" href="#primitives">Primitives</a></h1>
+<p>The core specification of Sentalang provides two useful primitives: fractions and cubic Bézier curves.</p>
+<ul>
+<li>Fractions provide a lossless numeric type primarily used for representing time.</li>
+<li>Cubic Bézier curves provide an easy way to represent curves or approximate any non-linear function.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="fractions"><a class="header" href="#fractions">Fractions</a></h1>
+<p>Sentalang provides a lossless numeric type called a fraction. A fraction is represented as an array of one or three integers: <code>[a, b, c]</code> or <code>[a]</code>; where <code>a</code> represents the whole/integer part; <code>b</code> and <code>c</code> represents the fractional part of the number, where <code>b</code> is the numerator, and <code>c</code> is the denominator and must be positive. </p>
+<p>The form <code>[a]</code> is just shorthand for <code>[a, 0, c]</code>. It is recommended that when a fraction has no fractional parts (i.e. it only contains whole parts), it should use the shorthand. The fraction must be written as a proper fraction that's reduced to its lowest terms.</p>
+<p>Computing the value for the value of the fraction is as simple as: <code>±(|a| + |b|/c)</code>. The bounds of the three numbers are <code>|b| &lt; c, c &gt; 0</code>. For the maximum and minimum bounds on <code>a</code>, <code>b</code>, and <code>c</code>, see the section the previous section about <a href="concepts/./json.html">JSON</a> particularly about I-JSON number limitations.</p>
+<p>The sign of the fraction is the sign of the first non-zero element in the array. There can only be at most one negative number in the array. In terms of if-statements it can be thought of as:</p>
+<ul>
+<li>If <code>a</code> is non-zero, then the fraction's sign is the sign of <code>a</code>.
+<ul>
+<li>If <code>a</code> is non-zero, then <code>b</code> must be non-negative.</li>
+</ul>
+</li>
+<li>If <code>a</code> is zero, then the fraction's sign is the sign of <code>b</code>.</li>
+</ul>
+<p>Sentalang fractions does not allow signed zeroes nor does it provide a way to write a signed zero. A parser is not expected to differentiate between positive and negative zero nor be able to extract the sign from a signed zero. From the rules above, a signed zero has no effect on the sign of a Sentalang fraction.</p>
+<p>Examples:</p>
+<ul>
+<li><code>[1, 2, 3]</code> = 1.6666...</li>
+<li><code>[2, 1, 4]</code> = 2.25</li>
+<li><code>[-5, 3, 7]</code> = -5.4285...</li>
+<li><code>[0, -1, 4]</code> = -0.25</li>
+<li><code>[-0, -1, 4]</code> = -0.25</li>
+<li><code>[30]</code> = 30</li>
+<li><code>[30, 0, 1]</code> = 30</li>
+<li><code>[-31]</code> = -31</li>
+<li><code>[-0]</code> = 0</li>
+<li><code>[0]</code> = 0</li>
+</ul>
+<p>Invalid examples:</p>
+<ul>
+<li><code>[2, -3, 5]</code>: <code>b</code> is negative when <code>a</code> is non-zero.</li>
+<li><code>[2, 3, -5]</code>: <code>c</code> must never be negative.</li>
+<li><code>[1, 6, 12]</code>: Fraction is not reduced. It should be written as <code>[1, 1, 2]</code></li>
+<li><code>[3, 0, 0]</code>: <code>c</code> must never be zero.</li>
+<li><code>[42, 3, 2]</code>: Fraction must be a proper fraction. It should be written as <code>[43, 1, 2]</code></li>
+<li><code>[4, 0, 2]</code>: Fraction is not reduced. It should be written as <code>[4, 0, 1]</code> or <code>[4]</code>, preferably the latter.</li>
+<li><code>[]</code>, <code>[1, 2]</code>, <code>[1, 2, 3, 4]</code>: Invalid number of items in the array. Number of items in the array must either be 1 or 3.</li>
+<li><code>[9007199254740992]</code>: Outside the maximum number bounds defined in I-JSON.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bézier"><a class="header" href="#bézier">Bézier</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="time"><a class="header" href="#time">Time</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="time-1"><a class="header" href="#time-1">Time</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bpm-and-offsets"><a class="header" href="#bpm-and-offsets">BPM and Offsets</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="events"><a class="header" href="#events">Events</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="group-and-named-events"><a class="header" href="#group-and-named-events">Group and Named Events</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="header"><a class="header" href="#header">Header</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="files"><a class="header" href="#files">Files</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chart-organization"><a class="header" href="#chart-organization">Chart Organization</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="chart-metadata"><a class="header" href="#chart-metadata">Chart Metadata</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="game-specification"><a class="header" href="#game-specification">Game Specification</a></h1>
+<p>TODO</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="extensions"><a class="header" href="#extensions">Extensions</a></h1>
+<p>TODO</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>
