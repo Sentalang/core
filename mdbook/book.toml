@@ -1,0 +1,6 @@
+[book]
+authors = ["donmai-me"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Sentalang Core Specification"
