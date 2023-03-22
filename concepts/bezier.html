@@ -145,7 +145,83 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="bézier"><a class="header" href="#bézier">Bézier</a></h1>
-<p>TODO</p>
+<p>Defining values on different time/location are what's only needed for discrete and linear values. However, for more complex curves we'd have to rely on bézier curves to represent it. Which is why Sentalang provides cubic Bézier curves to solve such problems.</p>
+<p>Declaring a cubic Bézier curve is as simple as making an object that contains an ordered array. The format is inspired by how Bodymovin/Lottie handles bézier control points but with changes on how points are stored.</p>
+<p>Control points are grouped into 3, which we'll call Control Point Group (CPG):</p>
+<ul>
+<li><strong>Vertex</strong> - The curve passes through this control point (Required)</li>
+<li><strong>In</strong> - Controls the shape of the curve going to the vertex (Optional, defaults to the same point as vertex. )</li>
+<li><strong>Out</strong> - Controls the shape of the curve going away from the vertex (Optional. Defaults to the same point as vertex)</li>
+</ul>
+<p>All points must have the same dimensions and all coordinate must be an integer, float, or a fraction.</p>
+<p>There should be at least 2 CPGs declared to form a curve. Cubic bézier segments are formed from two CPGs by taking the vertex and out control points from the first CPG, and the in and vertex control points from the second CPG.</p>
+<p>We can visualize how a cubic Bézier segment is formed from two CPGs with the help of the illustration below:</p>
+<ul>
+<li>P<sub>0</sub>: First CPG's vertex point</li>
+<li>P<sub>1</sub>: First CPG's out point</li>
+<li>P<sub>2</sub>: Second CPG's in point</li>
+<li>P<sub>3</sub>: Second CPG's vertex point</li>
+</ul>
+<p>![[bezier.png]]
+<em>By MarianSigler - Self-drawn using gedit, based on Bezier.png, Public Domain,</em> https://commons.wikimedia.org/w/index.php?curid=780454</p>
+<p>Given <strong>N</strong> CPGs, there are in total <strong>N-1</strong> cubic bézier segments. Segments are formed by taking 2 consecutive CPGs in an overlapping window. The order of CPGs in the array is important as it defines how the segments are defined. To form a closed shape, the vertex points of both the first and last CPGs in the array must be equal.</p>
+<p>For example, we have 4 CPGs: A, B, C, and D. We would have 3 cubic bézier segments:</p>
+<ol>
+<li>Segment 1: CPGs A and B</li>
+<li>Segment 2: CPGs B and C</li>
+<li>Segment 3: CPGs C and D</li>
+</ol>
+<p>Along with defining the CPGs, the dimensions must also be defined. Dimensions are defined using an array of strings, and must have a length equal to the number of dimensions of all points in all CPGs. </p>
+<p>Dimensions also provide a way to give hints on how to interpret the values listed in points. Like whether to convert a value to a rectilinear form in the case where points are stored in polar coordinates. Parsers must consult with a game mode specification on these matters.</p>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<p>An approximation of an open half circle in a cartesian plane:</p>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [-1, 0], &quot;out&quot;: [-1, 0.55]},
+        {&quot;vertex&quot;: [0, 1], &quot;in&quot;: [-0.55, 1], &quot;out&quot;: [0.55, 1]},
+        {&quot;vertex&quot;: [1, 0], &quot;in&quot;: [1, 0.55]},
+    ]
+}
+</code></pre>
+<p>A closed triangle with straight edges in a cartesian plane. <code>out</code> and <code>in</code> aren't defined in this example, meaning that they implicitly have the same value as <code>vertex</code>.</p>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0]},
+        {&quot;vertex&quot;: [1, 1]},
+        {&quot;vertex&quot;: [2, 0]},
+        {&quot;vertex&quot;: [0, 0]}
+    ]
+}
+</code></pre>
+<p>For this example, let's make a hypothetical slide note in a fictional VSRG, where 0 is left-most and 1 is right-most. We want the slide to look like a sigmoid (or an <em>ease-in-out</em> curve for those who use bézier for transitions in CSS and After Effects). This has some fields that are yet to be discussed in <a href="events.html">events</a> but for now let's just focus on how a slide note with a bézier curve would look.</p>
+<pre><code class="language-json">{
+	&quot;kind&quot;: &quot;SLIDE&quot;,
+	&quot;beat&quot;: [25, 1, 2],
+	&quot;duration&quot;: [3, 1, 2],
+	&quot;input&quot;: {
+		&quot;dimensions&quot;: [&quot;beat&quot;, &quot;lane&quot;],
+		&quot;points&quot;: [
+			{&quot;vertex&quot;: [[25, 1, 2], 0.1], &quot;out&quot;: [[25, 1, 2], 0.5]},
+			{&quot;vertex&quot;: [[29], 0.9], &quot;in&quot;: [[29], 0.5]}
+		]
+	}
+}
+</code></pre>
+<h2 id="invalid-examples"><a class="header" href="#invalid-examples">Invalid Examples</a></h2>
+<ul>
+<li>Inconsistent number of dimensions</li>
+</ul>
+<pre><code class="language-json">{
+	&quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+	&quot;points&quot;: [
+		{&quot;vertex&quot;: [3, 1], &quot;out&quot;: [5, 2, 3]},
+		{&quot;vertex&quot;: [12, 5.2], &quot;in&quot;: [12.5, 8]}
+	]
+}
+</code></pre>
+<p><strong>TODO:</strong> Add more valid and invalid examples</p>
 
                     </main>
 

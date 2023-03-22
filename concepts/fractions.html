@@ -157,12 +157,13 @@
 </li>
 <li>If <code>a</code> is zero, then the fraction's sign is the sign of <code>b</code>.</li>
 </ul>
-<p>Sentalang fractions does not allow signed zeroes nor does it provide a way to write a signed zero. A parser is not expected to differentiate between positive and negative zero nor be able to extract the sign from a signed zero. From the rules above, a signed zero has no effect on the sign of a Sentalang fraction.</p>
-<p>Examples:</p>
+<p>Sentalang fractions does not provide a way to write a signed zero. A parser is not expected to differentiate between positive and negative zero nor be able to extract the sign from a signed zero. From the rules above, a signed zero has no effect on the sign of a Sentalang fraction.</p>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <ul>
 <li><code>[1, 2, 3]</code> = 1.6666...</li>
 <li><code>[2, 1, 4]</code> = 2.25</li>
 <li><code>[-5, 3, 7]</code> = -5.4285...</li>
+<li><code>[0, 1, 2]</code> = 0.5</li>
 <li><code>[0, -1, 4]</code> = -0.25</li>
 <li><code>[-0, -1, 4]</code> = -0.25</li>
 <li><code>[30]</code> = 30</li>
@@ -171,7 +172,7 @@
 <li><code>[-0]</code> = 0</li>
 <li><code>[0]</code> = 0</li>
 </ul>
-<p>Invalid examples:</p>
+<h2 id="invalid-examples"><a class="header" href="#invalid-examples">Invalid examples</a></h2>
 <ul>
 <li><code>[2, -3, 5]</code>: <code>b</code> is negative when <code>a</code> is non-zero.</li>
 <li><code>[2, 3, -5]</code>: <code>c</code> must never be negative.</li>
@@ -181,6 +182,7 @@
 <li><code>[4, 0, 2]</code>: Fraction is not reduced. It should be written as <code>[4, 0, 1]</code> or <code>[4]</code>, preferably the latter.</li>
 <li><code>[]</code>, <code>[1, 2]</code>, <code>[1, 2, 3, 4]</code>: Invalid number of items in the array. Number of items in the array must either be 1 or 3.</li>
 <li><code>[9007199254740992]</code>: Outside the maximum number bounds defined in I-JSON.</li>
+<li><code>[1.2]</code>, <code>[&quot;727&quot;]</code>, <code>[[8], 3, 7]</code>, <code>[65.0, 3, 5]</code>, <code>[0.0, -2.0, 13.0]</code>: Types inside array must only be integers.</li>
 </ul>
 
                     </main>
