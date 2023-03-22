@@ -12,12 +12,13 @@ The sign of the fraction is the sign of the first non-zero element in the array.
 	- If `a` is non-zero, then `b` must be non-negative.
 - If `a` is zero, then the fraction's sign is the sign of `b`.
 
-Sentalang fractions does not allow signed zeroes nor does it provide a way to write a signed zero. A parser is not expected to differentiate between positive and negative zero nor be able to extract the sign from a signed zero. From the rules above, a signed zero has no effect on the sign of a Sentalang fraction.
+Sentalang fractions does not provide a way to write a signed zero. A parser is not expected to differentiate between positive and negative zero nor be able to extract the sign from a signed zero. From the rules above, a signed zero has no effect on the sign of a Sentalang fraction.
 
-Examples:
+## Examples
 - `[1, 2, 3]` = 1.6666...
 - `[2, 1, 4]` = 2.25
 - `[-5, 3, 7]` = -5.4285...
+- `[0, 1, 2]` = 0.5
 - `[0, -1, 4]` = -0.25
 - `[-0, -1, 4]` = -0.25
 - `[30]` = 30
@@ -26,7 +27,7 @@ Examples:
 - `[-0]` = 0
 - `[0]` = 0
 
-Invalid examples:
+## Invalid examples
 - `[2, -3, 5]`: `b` is negative when `a` is non-zero.
 - `[2, 3, -5]`: `c` must never be negative.
 - `[1, 6, 12]`: Fraction is not reduced. It should be written as `[1, 1, 2]`
@@ -35,3 +36,4 @@ Invalid examples:
 - `[4, 0, 2]`: Fraction is not reduced. It should be written as `[4, 0, 1]` or `[4]`, preferably the latter.
 - `[]`, `[1, 2]`, `[1, 2, 3, 4]`: Invalid number of items in the array. Number of items in the array must either be 1 or 3.
 - `[9007199254740992]`: Outside the maximum number bounds defined in I-JSON.
+- `[1.2]`, `["727"]`, `[[8], 3, 7]`, `[65.0, 3, 5]`, `[0.0, -2.0, 13.0]`: Types inside array must only be integers.
