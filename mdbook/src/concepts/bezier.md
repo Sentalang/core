@@ -19,7 +19,7 @@ We can visualize how a cubic Bézier segment is formed from two CPGs with the he
 - P<sub>2</sub>: Second CPG's in point
 - P<sub>3</sub>: Second CPG's vertex point
 
-![[bezier.png]]
+![Cubic bezier image](bezier.png)
 *By MarianSigler - Self-drawn using gedit, based on Bezier.png, Public Domain,* https://commons.wikimedia.org/w/index.php?curid=780454
 
 Given **N** CPGs, there are in total **N-1** cubic bézier segments. Segments are formed by taking 2 consecutive CPGs in an overlapping window. The order of CPGs in the array is important as it defines how the segments are defined. To form a closed shape, the vertex points of both the first and last CPGs in the array must be equal.
