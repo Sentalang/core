@@ -1,4 +1,3 @@
-
 # Fractions
 
 Sentalang provides a lossless numeric type called a fraction. A fraction is represented as an array of one or three integers: `[a, b, c]` or `[a]`; where `a` represents the whole/integer part; `b` and `c` represents the fractional part of the number, where `b` is the numerator, and `c` is the denominator and must be positive. 
@@ -37,3 +36,7 @@ Sentalang fractions does not provide a way to write a signed zero. A parser is n
 - `[]`, `[1, 2]`, `[1, 2, 3, 4]`: Invalid number of items in the array. Number of items in the array must either be 1 or 3.
 - `[9007199254740992]`: Outside the maximum number bounds defined in I-JSON.
 - `[1.2]`, `["727"]`, `[[8], 3, 7]`, `[65.0, 3, 5]`, `[0.0, -2.0, 13.0]`: Types inside array must only be integers.
+
+## Conclusion
+
+In conclusion, Sentalang's fraction representation offers a lossless rational numeric type that guarantees precision and accuracy in rhythm game elements. For scenarios where accuracy is of utmost importance, such as tracking time in a chart, using fractions is highly recommended.
