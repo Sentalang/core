@@ -146,20 +146,23 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p><strong>Sentalang</strong> is a JSON rhythm game chart format that focuses on flexibility, simplicity, and unambiguity. This book contains the core specification and related concepts of the format. The GitHub repository can be found <a href="https://github.com/Sentalang/core">here</a>.</p>
+<p><strong>Sentalang</strong> is a JSON-based rhythm game chart format that emphasizes on flexibility, simplicity, and unambiguity. This document contains the core specification and related concepts for the format. The GitHub repository can be found <a href="https://github.com/Sentalang/core">here</a>.</p>
 <blockquote>
-<p>The specification and this documentation is still under-construction. Things may change drastically as things gets finalized and comments/suggestions are addressed. We welcome everyone to participate and give constructive thoughts.</p>
+<p>Please note that the specification and this documentation are still under construction. Aspects may change significantly as elements are finalized, and comments or suggestions are addressed. We welcome everyone to participate and provide constructive input.</p>
 </blockquote>
 <h2 id="goals"><a class="header" href="#goals">Goals</a></h2>
-<p>The following are the goals that this specification aims to achieve:</p>
+<p>The following goals guide the development of this specification:</p>
 <ul>
-<li><strong>Versioning</strong>: Chart files includes the version of the specifications it is targeting.</li>
-<li><strong>Ease-of-parsing</strong>: Sentalang doesn't use a custom data serialization format meaning parsers just need to focus on validation.</li>
-<li><strong>Well-defined</strong>: The core specification must leave no ambiguities in interpretation.</li>
-<li><strong>Strong separation between gimmicks and timing</strong>: Time must be well-defined with no way of tinkering with it to cause visual gimmicks.</li>
-<li><strong>Game agnostic</strong>: The core specification assumes as little as possible about any game or their game engines.</li>
-<li><strong>Flexible</strong>: Allows game modes and extensions to be defined outside the core specification.</li>
+<li><strong>Versioning</strong>: Chart files include the targeted specification version.</li>
+<li><strong>Ease-of-parsing</strong>: Sentalang uses a standard data serialization format, allowing parsers to focus on validation.</li>
+<li><strong>Well-defined</strong>: The core specification leaves no room for ambiguities in interpretation.</li>
+<li><strong>Strong separation between gimmicks and timing</strong>: Time must be well-defined, with no possibility of manipulation to create visual gimmicks.</li>
+<li><strong>Game agnostic</strong>: The core specification makes minimal assumptions about specific games or their engines.</li>
+<li><strong>Flexible</strong>: The format allows for game modes and extensions to be defined outside of the core specification.</li>
 </ul>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<p>In each section of this specification, you may find lists of examples that showcase both valid and invalid cases. Developers are encouraged to carefully examine these examples to guarantee that their implementations conform to the expectations outlined in this specification. By adhering to these guidelines, a consistent and reliable rhythm game experience can be ensured.</p>
+<p>In the future, examples will also be made available outside of this documentation in a format that can be easily consumed by scripts or programs. This will facilitate more streamlined testing and validation processes.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="roadmap"><a class="header" href="#roadmap">Roadmap</a></h1>
 <p>Sentalang is still work-in-progress. Here are a list of things still needed to do before we can consider the minimum viable product (MVP) done.</p>
 <ul>
@@ -226,7 +229,7 @@ Release graphical chart editor</li>
 <li>If <code>a</code> is zero, then the fraction's sign is the sign of <code>b</code>.</li>
 </ul>
 <p>Sentalang fractions does not provide a way to write a signed zero. A parser is not expected to differentiate between positive and negative zero nor be able to extract the sign from a signed zero. From the rules above, a signed zero has no effect on the sign of a Sentalang fraction.</p>
-<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h2 id="examples-1"><a class="header" href="#examples-1">Examples</a></h2>
 <ul>
 <li><code>[1, 2, 3]</code> = 1.6666...</li>
 <li><code>[2, 1, 4]</code> = 2.25</li>
@@ -252,36 +255,85 @@ Release graphical chart editor</li>
 <li><code>[9007199254740992]</code>: Outside the maximum number bounds defined in I-JSON.</li>
 <li><code>[1.2]</code>, <code>[&quot;727&quot;]</code>, <code>[[8], 3, 7]</code>, <code>[65.0, 3, 5]</code>, <code>[0.0, -2.0, 13.0]</code>: Types inside array must only be integers.</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="bézier"><a class="header" href="#bézier">Bézier</a></h1>
-<p>Defining values on different time/location are what's only needed for discrete and linear values. However, for more complex curves we'd have to rely on bézier curves to represent it. Which is why Sentalang provides cubic Bézier curves to solve such problems.</p>
-<p>Declaring a cubic Bézier curve is as simple as making an object that contains an ordered array. The format is inspired by how Bodymovin/Lottie handles bézier control points but with changes on how points are stored.</p>
-<p>Control points are grouped into 3, which we'll call Control Point Group (CPG):</p>
+<h2 id="conclusion"><a class="header" href="#conclusion">Conclusion</a></h2>
+<p>In conclusion, Sentalang's fraction representation offers a lossless rational numeric type that guarantees precision and accuracy in rhythm game elements. For scenarios where accuracy is of utmost importance, such as tracking time in a chart, using fractions is highly recommended.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="bézier-curves"><a class="header" href="#bézier-curves">Bézier Curves</a></h1>
+<p>Discrete and linear curves/functions can be modeled by specifying values at different times and locations. However, for more complex curves/functions, we need to use cubic Bézier curves. In Sentalang, cubic Bézier curves are represented with an ordered array inspired by Bodymovin/Lottie's handling of Bézier control points, with modifications to point storage.</p>
+<p>Control points are organized into groups of three, called Control Point Groups (CPGs):</p>
 <ul>
-<li><strong>Vertex</strong> - The curve passes through this control point (Required)</li>
-<li><strong>In</strong> - Controls the shape of the curve going to the vertex (Optional, defaults to the same point as vertex. )</li>
-<li><strong>Out</strong> - Controls the shape of the curve going away from the vertex (Optional. Defaults to the same point as vertex)</li>
+<li><strong>Vertex</strong> - The curve passes through this control point (Required)</li>
+<li><strong>In</strong> - Controls the shape of the curve going towards the vertex (Optional; defaults to the same point as vertex)</li>
+<li><strong>Out</strong> - Controls the shape of the curve moving away from the vertex (Optional; defaults to the same point as vertex)</li>
 </ul>
-<p>All points must have the same dimensions and all coordinate must be an integer, float, or a fraction.</p>
-<p>There should be at least 2 CPGs declared to form a curve. Cubic bézier segments are formed from two CPGs by taking the vertex and out control points from the first CPG, and the in and vertex control points from the second CPG.</p>
-<p>We can visualize how a cubic Bézier segment is formed from two CPGs with the help of the illustration below:</p>
+<p>All points within a CPG must have the same dimensions, and coordinates can be integers, floats, or fractions.</p>
+<p>At least two CPGs must be declared to form a curve. Cubic Bézier segments are created from two CPGs by using the vertex and out control points from the first CPG, and the in and vertex control points from the second CPG.</p>
+<p>To visualize how a cubic Bézier segment is formed from two CPGs, consider the following illustration:</p>
 <ul>
 <li>P<sub>0</sub>: First CPG's vertex point</li>
 <li>P<sub>1</sub>: First CPG's out point</li>
 <li>P<sub>2</sub>: Second CPG's in point</li>
 <li>P<sub>3</sub>: Second CPG's vertex point</li>
 </ul>
-<p><img src="concepts/bezier.png" alt="Cubic bezier image" />
+<p><img src="concepts/./media/bezier.png" alt="Image of a cubic bézier curve with the four control points visible" />
 <em>By MarianSigler - Self-drawn using gedit, based on Bezier.png, Public Domain,</em> https://commons.wikimedia.org/w/index.php?curid=780454</p>
-<p>Given <strong>N</strong> CPGs, there are in total <strong>N-1</strong> cubic bézier segments. Segments are formed by taking 2 consecutive CPGs in an overlapping window. The order of CPGs in the array is important as it defines how the segments are defined. To form a closed shape, the vertex points of both the first and last CPGs in the array must be equal.</p>
-<p>For example, we have 4 CPGs: A, B, C, and D. We would have 3 cubic bézier segments:</p>
+<p>Given <strong>N</strong> CPGs, there are <strong>N-1</strong> cubic Bézier segments in total. Segments are formed by taking two consecutive CPGs in an overlapping manner. The order of CPGs in the array is crucial, as it determines how segments are defined. To create a closed shape, the vertex points of the first and last CPGs in the array must be equal.</p>
+<p>For instance, given the following array of four CPGs (A, B, C, and D):</p>
+<pre><code class="language-json">[
+    // CPG A
+    {
+        &quot;vertex&quot;: [0, 0],
+        &quot;out&quot;: [1, 1]
+    },
+    // CPG B
+    {
+        &quot;vertex&quot;: [2, 2],
+        &quot;in&quot;: [1, 3],
+        &quot;out&quot;: [3, 3]
+    },
+    // CPG C
+    {
+        &quot;vertex&quot;: [4, 2],
+        &quot;in&quot;: [3, 1],
+        &quot;out&quot;: [5, 1]
+    },
+    // CPG D
+    {
+        &quot;vertex&quot;: [6, 0],
+        &quot;in&quot;: [5, -1]
+    }
+]
+
+</code></pre>
+<p>Three cubic Bézier segments are formed:</p>
 <ol>
-<li>Segment 1: CPGs A and B</li>
-<li>Segment 2: CPGs B and C</li>
-<li>Segment 3: CPGs C and D</li>
+<li>Segment 1 (formed from CPGs A and B):
+<ul>
+<li>P<sub>0</sub>: <code>[0, 0]</code> (vertex of CPG A)</li>
+<li>P<sub>1</sub>: <code>[1, 1]</code> (out of CPG A)</li>
+<li>P<sub>2</sub>: <code>[1, 3]</code> (in of CPG B)</li>
+<li>P<sub>3</sub>: <code>[2, 2]</code> (vertex of CPG B)</li>
+</ul>
+</li>
+<li>Segment 2 (formed from CPGs B and C):
+<ul>
+<li>P<sub>0</sub>: <code>[2, 2]</code> (vertex of CPG B)</li>
+<li>P<sub>1</sub>: <code>[3, 3]</code> (out of CPG B)</li>
+<li>P<sub>2</sub>: <code>[3, 1]</code> (in of CPG C)</li>
+<li>P<sub>3</sub>: <code>[4, 2]</code> (vertex of CPG C)</li>
+</ul>
+</li>
+<li>Segment 3 (formed from CPGs C and D):
+<ul>
+<li>P<sub>0</sub>: <code>[4, 2]</code> (vertex of CPG C)</li>
+<li>P<sub>1</sub>: <code>[5, 1]</code> (out of CPG C)</li>
+<li>P<sub>2</sub>: <code>[5, -1]</code> (in of CPG D)</li>
+<li>P<sub>3</sub>: <code>[6, 0]</code> (vertex of CPG D)</li>
+</ul>
+</li>
 </ol>
-<p>Along with defining the CPGs, the dimensions must also be defined. Dimensions are defined using an array of strings, and must have a length equal to the number of dimensions of all points in all CPGs. </p>
-<p>Dimensions also provide a way to give hints on how to interpret the values listed in points. Like whether to convert a value to a rectilinear form in the case where points are stored in polar coordinates. Parsers must consult with a game mode specification on these matters.</p>
-<h2 id="examples-1"><a class="header" href="#examples-1">Examples</a></h2>
+<p>Dimensions must also be defined for the CPGs. Dimensions are specified using an array of strings, with the length of the array equal to the number of dimensions for all points in all CPGs.</p>
+<p>Dimensions serve as a means of providing hints on how to interpret values in points, such as converting a value to rectilinear form when points are stored in polar coordinates. Parsers must consult the game mode specification for guidance on these matters.</p>
+<h2 id="examples-2"><a class="header" href="#examples-2">Examples</a></h2>
 <p>An approximation of an open half circle in a cartesian plane:</p>
 <pre><code class="language-json">{
     &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
@@ -292,7 +344,8 @@ Release graphical chart editor</li>
     ]
 }
 </code></pre>
-<p>A closed triangle with straight edges in a cartesian plane. <code>out</code> and <code>in</code> aren't defined in this example, meaning that they implicitly have the same value as <code>vertex</code>.</p>
+<p><img src="concepts/./media/half_circle.svg" alt="Image of the half circle from the example above" /></p>
+<p>A closed triangle with straight edges in a Cartesian plane (note that <code>out</code> and <code>in</code> are not defined, implying that they have the same value as <code>vertex</code>):</p>
 <pre><code class="language-json">{
     &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
     &quot;points&quot;: [
@@ -303,7 +356,30 @@ Release graphical chart editor</li>
     ]
 }
 </code></pre>
-<p>For this example, let's make a hypothetical slide note in a fictional VSRG, where 0 is left-most and 1 is right-most. We want the slide to look like a sigmoid (or an <em>ease-in-out</em> curve for those who use bézier for transitions in CSS and After Effects). This has some fields that are yet to be discussed in <a href="concepts/events.html">events</a> but for now let's just focus on how a slide note with a bézier curve would look.</p>
+<p><img src="concepts/./media/triangle.svg" alt="Image of the triangle from the example above" /></p>
+<p>An S-shaped curve in a Cartesian plane:</p>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0], &quot;out&quot;: [1, 2]},
+        {&quot;vertex&quot;: [3, 4], &quot;in&quot;: [2, 6], &quot;out&quot;: [4, 6]},
+        {&quot;vertex&quot;: [6, 4], &quot;in&quot;: [5, 2]}
+    ]
+}
+</code></pre>
+<p>A zigzag path in a 3D Cartesian space:</p>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;, &quot;z&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0, 0]},
+        {&quot;vertex&quot;: [1, 1, 1]},
+        {&quot;vertex&quot;: [2, 0, 2]},
+        {&quot;vertex&quot;: [3, 1, 3]},
+        {&quot;vertex&quot;: [4, 0, 4]}
+    ]
+}
+</code></pre>
+<p>In this example, we create a hypothetical slide note in a fictional Vertical Scrolling Rhythm Game (VSRG), where 0 is the left-most and 1 is the right-most position. We want the slide to resemble a sigmoid curve (or an <em>ease-in-out</em> curve, as used in CSS and After Effects Bézier transitions). This example includes some fields that will be discussed later in <a href="concepts/./events.html">events</a>, but for now, let's focus on the appearance of a slide note with a Bézier curve:</p>
 <pre><code class="language-json">{
 	&quot;kind&quot;: &quot;SLIDE&quot;,
 	&quot;beat&quot;: [25, 1, 2],
@@ -311,25 +387,126 @@ Release graphical chart editor</li>
 	&quot;input&quot;: {
 		&quot;dimensions&quot;: [&quot;beat&quot;, &quot;lane&quot;],
 		&quot;points&quot;: [
-			{&quot;vertex&quot;: [[25, 1, 2], 0.1], &quot;out&quot;: [[25, 1, 2], 0.5]},
-			{&quot;vertex&quot;: [[29], 0.9], &quot;in&quot;: [[29], 0.5]}
+			{&quot;vertex&quot;: [[0], 0.1], &quot;out&quot;: [[0], 0.5]},
+			{&quot;vertex&quot;: [[3, 1, 2], 0.9], &quot;in&quot;: [[3, 1, 2], 0.5]}
 		]
 	}
 }
 </code></pre>
-<h2 id="invalid-examples-1"><a class="header" href="#invalid-examples-1">Invalid Examples</a></h2>
-<ul>
-<li>Inconsistent number of dimensions</li>
-</ul>
+<p>In this example, the zigzag slide starts at the left-most lane (lane 0) at beat 0. The pattern then moves to the right-most lane (lane 1) at beat 1, back to the left-most lane at beat 2, and so on. The pattern ends at the left-most lane at beat 4.:</p>
 <pre><code class="language-json">{
-	&quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+	&quot;kind&quot;: &quot;SLIDE&quot;,
+	&quot;beat&quot;: [10],
+	&quot;duration&quot;: [4],
+	&quot;input&quot;: {
+	    &quot;dimensions&quot;: [&quot;beat&quot;, &quot;lane&quot;],
+	    &quot;points&quot;: [
+	        {&quot;vertex&quot;: [[0], 0]},
+	        {&quot;vertex&quot;: [[1], 1]},
+	        {&quot;vertex&quot;: [[2], 0]},
+	        {&quot;vertex&quot;: [[3], 1]},
+	        {&quot;vertex&quot;: [[4], 0]}
+	    ]
+	}
+}
+</code></pre>
+<h2 id="invalid-examples-1"><a class="header" href="#invalid-examples-1">Invalid Examples</a></h2>
+<h3 id="inconsistent-number-of-dimensions"><a class="header" href="#inconsistent-number-of-dimensions">Inconsistent number of dimensions</a></h3>
+<pre><code class="language-json">{
+	&quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;], // Points are 2 dimensional
 	&quot;points&quot;: [
-		{&quot;vertex&quot;: [3, 1], &quot;out&quot;: [5, 2, 3]},
+		{&quot;vertex&quot;: [3, 1], &quot;out&quot;: [5, 2, 3]}, // Out has 3 dimensions
 		{&quot;vertex&quot;: [12, 5.2], &quot;in&quot;: [12.5, 8]}
 	]
 }
 </code></pre>
-<p><strong>TODO:</strong> Add more valid and invalid examples</p>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;, &quot;z&quot;], // Points are 3 dimensional
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0, 0], &quot;out&quot;: [1, 1, 1]},
+        {&quot;vertex&quot;: [2, 2], &quot;in&quot;: [1, 3], &quot;out&quot;: [3, 3]}, // all points are 2 dimensional
+        {&quot;vertex&quot;: [4, 4, 4], &quot;in&quot;: [3, 5, 5]}
+    ]
+}
+</code></pre>
+<h3 id="missing-required-vertex-field"><a class="header" href="#missing-required-vertex-field">Missing required <code>vertex</code> field</a></h3>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+    &quot;points&quot;: [
+        {&quot;out&quot;: [1, 1]}, // missing vertex here
+        {&quot;vertex&quot;: [2, 2], &quot;in&quot;: [1, 3], &quot;out&quot;: [3, 3]},
+        {&quot;vertex&quot;: [4, 4], &quot;in&quot;: [3, 5]}
+    ]
+}
+</code></pre>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0], &quot;out&quot;: [1, 1]},
+        {&quot;in&quot;: [1, 3], &quot;out&quot;: [3, 3]}, // missing vertex here
+        {&quot;vertex&quot;: [4, 2], &quot;in&quot;: [3, 1], &quot;out&quot;: [5, 1]},
+        {&quot;vertex&quot;: [6, 0], &quot;in&quot;: [5, -1]}
+    ]
+}
+</code></pre>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;, &quot;z&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0, 0], &quot;out&quot;: [1, 1, 0.5]},
+        {&quot;in&quot;: [1, 3, 0.7], &quot;out&quot;: [3, 3, 1.2]}, // missing vertex here
+        {&quot;in&quot;: [3, 1, 0.8], &quot;out&quot;: [5, 1, 1.5]}, // missing vertex here
+        {&quot;vertex&quot;: [6, 0, 0], &quot;in&quot;: [5, -1, 0.3]}
+    ]
+}
+</code></pre>
+<h3 id="invalid-data-types-for-coordinates"><a class="header" href="#invalid-data-types-for-coordinates">Invalid data types for coordinates</a></h3>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [&quot;0&quot;, 0], &quot;out&quot;: [1, 1]}, // vertex has a string
+        {&quot;vertex&quot;: [2, 2], &quot;in&quot;: [1, 3], &quot;out&quot;: [3, 3]},
+        {&quot;vertex&quot;: [4, &quot;4&quot;], &quot;in&quot;: [3, 5]} // vertex has a string
+    ]
+}
+</code></pre>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;, &quot;z&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0, 0], &quot;out&quot;: [{&quot;val&quot;: 3}, 1, 0.5]}, // out has an object
+        {&quot;vertex&quot;: [2, 2, 1], &quot;in&quot;: [1, &quot;3&quot;, 0.7], &quot;out&quot;: [3, 3, 1.2]} // in has a string
+    ]
+}
+</code></pre>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0], &quot;out&quot;: [1, &quot;1&quot;]}, // out has a string
+        {&quot;vertex&quot;: [2, 2], &quot;in&quot;: [&quot;1&quot;, 3], &quot;out&quot;: [3, 3]} // in has a string
+    ]
+}
+</code></pre>
+<h3 id="less-than-two-cpgs"><a class="header" href="#less-than-two-cpgs">Less than two CPGs</a></h3>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;, &quot;z&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0, 0], &quot;out&quot;: [1, 1, 0.5]}
+    ]
+}
+</code></pre>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+    &quot;points&quot;: [
+        {&quot;vertex&quot;: [0, 0], &quot;out&quot;: [1, 1]}
+    ]
+}
+</code></pre>
+<pre><code class="language-json">{
+    &quot;dimensions&quot;: [&quot;x&quot;, &quot;y&quot;],
+    &quot;points&quot;: []
+}
+</code></pre>
+<h2 id="conclusion-1"><a class="header" href="#conclusion-1">Conclusion</a></h2>
+<p>In summary, this Bézier curve specification offers a versatile solution for rhythm game designers to create intricate paths and shapes. With this specification, it becomes possible to create a wide variety of paths and visuals for the game, including zigzags, curves, and more. The usage of Bézier curves can contribute to a more engaging and dynamic player experience.</p>
 
                     </main>
 

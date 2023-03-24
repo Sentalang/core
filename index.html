@@ -145,20 +145,23 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="introduction"><a class="header" href="#introduction">Introduction</a></h1>
-<p><strong>Sentalang</strong> is a JSON rhythm game chart format that focuses on flexibility, simplicity, and unambiguity. This book contains the core specification and related concepts of the format. The GitHub repository can be found <a href="https://github.com/Sentalang/core">here</a>.</p>
+<p><strong>Sentalang</strong> is a JSON-based rhythm game chart format that emphasizes on flexibility, simplicity, and unambiguity. This document contains the core specification and related concepts for the format. The GitHub repository can be found <a href="https://github.com/Sentalang/core">here</a>.</p>
 <blockquote>
-<p>The specification and this documentation is still under-construction. Things may change drastically as things gets finalized and comments/suggestions are addressed. We welcome everyone to participate and give constructive thoughts.</p>
+<p>Please note that the specification and this documentation are still under construction. Aspects may change significantly as elements are finalized, and comments or suggestions are addressed. We welcome everyone to participate and provide constructive input.</p>
 </blockquote>
 <h2 id="goals"><a class="header" href="#goals">Goals</a></h2>
-<p>The following are the goals that this specification aims to achieve:</p>
+<p>The following goals guide the development of this specification:</p>
 <ul>
-<li><strong>Versioning</strong>: Chart files includes the version of the specifications it is targeting.</li>
-<li><strong>Ease-of-parsing</strong>: Sentalang doesn't use a custom data serialization format meaning parsers just need to focus on validation.</li>
-<li><strong>Well-defined</strong>: The core specification must leave no ambiguities in interpretation.</li>
-<li><strong>Strong separation between gimmicks and timing</strong>: Time must be well-defined with no way of tinkering with it to cause visual gimmicks.</li>
-<li><strong>Game agnostic</strong>: The core specification assumes as little as possible about any game or their game engines.</li>
-<li><strong>Flexible</strong>: Allows game modes and extensions to be defined outside the core specification.</li>
+<li><strong>Versioning</strong>: Chart files include the targeted specification version.</li>
+<li><strong>Ease-of-parsing</strong>: Sentalang uses a standard data serialization format, allowing parsers to focus on validation.</li>
+<li><strong>Well-defined</strong>: The core specification leaves no room for ambiguities in interpretation.</li>
+<li><strong>Strong separation between gimmicks and timing</strong>: Time must be well-defined, with no possibility of manipulation to create visual gimmicks.</li>
+<li><strong>Game agnostic</strong>: The core specification makes minimal assumptions about specific games or their engines.</li>
+<li><strong>Flexible</strong>: The format allows for game modes and extensions to be defined outside of the core specification.</li>
 </ul>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<p>In each section of this specification, you may find lists of examples that showcase both valid and invalid cases. Developers are encouraged to carefully examine these examples to guarantee that their implementations conform to the expectations outlined in this specification. By adhering to these guidelines, a consistent and reliable rhythm game experience can be ensured.</p>
+<p>In the future, examples will also be made available outside of this documentation in a format that can be easily consumed by scripts or programs. This will facilitate more streamlined testing and validation processes.</p>
 
                     </main>
 
